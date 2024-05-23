@@ -1,9 +1,12 @@
 <?php
 
+use App\Features\App\v1\Middleware\AuthAppMiddleware;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,7 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            Route::prefix('app/v1/api')->group(base_path('app/Features/App/v1/Routes/api.php'));
+            Route::namespace('AppApiV1')->name('app.')->prefix('app/v1/api')->group(base_path('app/Features/App/v1/Routes/api.php'));
+
         },
 
 
@@ -27,8 +31,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'type.user' => AuthAppMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (AuthenticationException $e) {
+            return response()->json(['success' => false, 'message' => 'انتهت الجلسة الخاصة بك, أعد عمل تسجيل دخول'],401);
+        });
     })->create();

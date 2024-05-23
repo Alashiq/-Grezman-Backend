@@ -17,12 +17,21 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('photo')->default('/storage/assets/avatar.webp');
-            $table->string('device_token')->default('no');
 
-            $table->string('pin')->nullable();
             $table->integer('login_attempts')->default(0);
             $table->dateTime('attempts_at')->nullable();
             $table->dateTime('ban_expires_at')->nullable();
+
+
+            $table->string('otp')->nullable();
+            $table->integer('otp_attempts')->default(0);
+            $table->dateTime('otp_attempts_at')->nullable();
+
+
+            $table->integer('point')->default(0);
+
+            
+            $table->string('device_token')->default('no');
             $table->integer('status')->default(0); // 0 first - 1 active and new - 2 user   - 3 banned  - 9 delete
 
             $table->rememberToken();
