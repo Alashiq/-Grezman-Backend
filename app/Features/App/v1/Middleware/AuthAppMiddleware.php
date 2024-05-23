@@ -21,6 +21,11 @@ class AuthAppMiddleware
 
     //  return $request->user()->tokenCan('role:user');
         if ($request->user()->tokenCan('role:user')) {
+            if ($request->user()->ban_expires_at > now())
+                return response()->json([
+                    "success" => false,
+                    "message" => "تم حظر حسابك ولم بعد بإمكانك استخدامه"
+                ], 401);
             if ($request->user()->status == 3)
                 return response()->json([
                     "success" => false,

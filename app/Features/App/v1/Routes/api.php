@@ -36,7 +36,7 @@ Route::middleware(['auth:sanctum', 'type.user'])->group(function () {
     Route::group(['prefix' => 'item'], function () {
         Route::get('/', [ItemController::class, 'index']);
         Route::get('/{id}', [ItemController::class, 'show']);
-        // Route::post('/orders', 'store');
+        Route::post('/', [ItemController::class, 'store']);
     });
     # # # # # # # # # # # # # # # End Item # # # # # # # # # # # # # # # 
 

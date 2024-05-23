@@ -51,6 +51,24 @@ class ItemController extends Controller
     }
 
 
+    public function store(Request $request){
+
+        if (Validator::make($request->all(), [
+            'naem' => 'required|string|min:2|max:25',
+        ])->fails()) {
+            return $this->badRequest("يجب عليك إدخال الإسم");
+        }
+
+
+        $newItem = Item::create([
+            'name' => $request['name'],
+            'description' => $request['description']?? null,
+
+        ]);
+        return response()->json(['success' => true, 'message' => 'تم إضافة هذا العنصر بنجاح'], 201);
+    }
+
+
 
     // End OF Controller
 }
