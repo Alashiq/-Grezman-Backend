@@ -26,6 +26,7 @@ class User extends Model
 
         'point',
         'device_token',
+        'last_notification',
     ];
 
     /**

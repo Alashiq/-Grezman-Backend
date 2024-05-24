@@ -3,6 +3,7 @@
 namespace App\Features\App\v1\Controllers;
 
 use App\Features\App\v1\Models\User;
+use App\Features\App\v1\Models\UserNotification;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Validator;
 
@@ -38,11 +39,14 @@ class AuthController extends Controller
             $smsCode = rand(100000, 999999);
 
         if (!$user) {
+        $lastNotificationId = UserNotification::orderBy('id', 'desc')->value('id');
+
             User::create([
                 'first_name' => 'الإسم',
                 'last_name' => 'اللقب',
                 'phone' => $request->phone,
                 'device_token' => $request->device_token ?? 'nan',
+                'last_notification'=> $lastNotificationId ,
                 'otp' => $smsCode,
                 'status' => 0,
             ]);
@@ -162,6 +166,16 @@ class AuthController extends Controller
         $user->device_token = $request->device_token ?? 'nan';
         $user->save();
 
+
+        $user_id = $user->id;
+        $notificationCount = UserNotification::where(function ($query) use ($user_id) {
+            $query->where('type', 1)
+                ->orWhere(function ($query) use ($user_id) {
+                    $query->where('type', 2)
+                        ->where('user_id', $user_id);
+                });
+        })->where('id', '>', $user->last_notification)->isSent()->notDeleted()->count();
+
         return response()->json([
             'success' => true,
             'message' => 'مرحبا بك',
@@ -172,7 +186,8 @@ class AuthController extends Controller
                 'photo' => $user->photo,
                 'token' => $user->createToken('app', ['role:user'])->plainTextToken,
                 'point' => $user->point,
-                'notifications' => 0,
+                'balance' => $user->balance,
+                'notifications' => $notificationCount,
                 'status' => $user->status,
             ]
         ], 200);
@@ -215,6 +230,7 @@ class AuthController extends Controller
                 'photo' => $user->photo,
                 'token' => $user->createToken('app', ['role:user'])->plainTextToken,
                 'point' => $user->point,
+                'balance' => $user->balance,
                 'notifications' => 0,
                 'status' => $user->status,
             ]
@@ -224,6 +240,7 @@ class AuthController extends Controller
 
     public function profile(Request $request)
     {
+
         $user = User::find($request->user()->id);
 
         if ($user->status == 3  || $user->ban_expires_at >= Carbon::now())
@@ -235,6 +252,19 @@ class AuthController extends Controller
         if ($request->device_token != null)
             $user->device_token = $request->device_token;
         $user->save();
+
+
+        $user_id = $request->user()->id;
+        $notificationCount = UserNotification::where(function ($query) use ($user_id) {
+            $query->where('type', 1)
+                ->orWhere(function ($query) use ($user_id) {
+                    $query->where('type', 2)
+                        ->where('user_id', $user_id);
+                });
+        })->where('id', '>', $user->last_notification)->isSent()->notDeleted()->count();
+
+
+
         return response()->json([
             'success' => true,
             'message' => 'مرحبا بك',
@@ -245,7 +275,8 @@ class AuthController extends Controller
                 'photo' => $user->photo,
                 'token' => $request->bearerToken(),
                 'point' => $user->point,
-                'notifications' => 0,
+                'balance' => $user->balance,
+                'notifications' => $notificationCount,
                 'status' => $user->status,
             ]
         ], 200);

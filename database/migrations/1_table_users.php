@@ -30,6 +30,10 @@ return new class extends Migration
 
             $table->integer('point')->default(0);
 
+
+            $table->integer('last_notification')->default(0);
+            $table->decimal('balance', 10, 2)->default(0.0);
+
             
             $table->string('device_token')->default('no');
             $table->integer('status')->default(0); // 0 first - 1 active and new - 2 user   - 3 banned  - 9 delete
