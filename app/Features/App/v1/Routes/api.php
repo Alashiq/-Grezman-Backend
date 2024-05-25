@@ -4,6 +4,7 @@
 
 use App\Features\App\v1\Controllers\AuthController;
 use App\Features\App\v1\Controllers\ItemController;
+use App\Features\App\v1\Controllers\UserNotificationController;
 // ==========
 
 use Illuminate\Http\Request;
@@ -40,6 +41,12 @@ Route::middleware(['auth:sanctum', 'type.user'])->group(function () {
     });
     # # # # # # # # # # # # # # # End Item # # # # # # # # # # # # # # # 
 
+        # # # # # # # # # # # # # # # Item # # # # # # # # # # # # # # # 
+        Route::group(['prefix' => 'notification'], function () {
+            Route::get('/', [UserNotificationController::class, 'index']);
+        });
+        # # # # # # # # # # # # # # # End Item # # # # # # # # # # # # # # # 
+    
 
 
 });
