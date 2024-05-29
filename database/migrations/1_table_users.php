@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('photo')->default('/storage/assets/avatar.webp');
+            $table->string('photo')->default('assets/avatar.webp');
 
             $table->integer('login_attempts')->default(0);
             $table->dateTime('attempts_at')->nullable();

@@ -20,10 +20,12 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
+
+
         if ($request->count)
             $count = $request->count;
         else
-            $count = 10;
+            $count = 1;
 
         $list = Item::latest()
             ->notDeleted()

@@ -24,7 +24,7 @@ class UserNotificationController extends Controller
         if ($request->count)
             $count = $request->count;
         else
-            $count = 10;
+            $count = 1;
 
             $user_id = $request->user()->id;
             $list = UserNotification::latest()->where(function ($query) use ($user_id) {
@@ -40,7 +40,6 @@ class UserNotificationController extends Controller
             return $this->empty();
         return response()->json(['success' => true, 'message' => 'تم جلب  الإشعارات بنجاح', 'data' => $list], 200);
     }
-
 
 
 

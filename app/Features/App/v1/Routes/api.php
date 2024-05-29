@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 
-# # # # # # # # # # # # # # # User # # # # # # # # # # # # # # # 
-Route::group(['prefix' => 'user'], function () {
+# # # # # # # # # # # # # # # Login # # # # # # # # # # # # # # # 
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/activate', [AuthController::class, 'activate']);
-});
-
-# # # # # # # # # # # # # # # End User # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # End Login # # # # # # # # # # # # # # # 
 
 Route::middleware(['auth:sanctum', 'type.user'])->group(function () {
 
@@ -29,6 +26,7 @@ Route::middleware(['auth:sanctum', 'type.user'])->group(function () {
         Route::get('/profile', [AuthController::class, 'profile']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/photo', [AuthController::class, 'photo']);
+        Route::post('/name', [AuthController::class, 'name']);
     });
     # # # # # # # # # # # # # # # End User # # # # # # # # # # # # # # # 
 

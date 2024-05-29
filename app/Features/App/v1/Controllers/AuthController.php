@@ -39,14 +39,14 @@ class AuthController extends Controller
             $smsCode = rand(100000, 999999);
 
         if (!$user) {
-        $lastNotificationId = UserNotification::orderBy('id', 'desc')->value('id');
+            $lastNotificationId = UserNotification::orderBy('id', 'desc')->value('id');
 
             User::create([
                 'first_name' => 'الإسم',
                 'last_name' => 'اللقب',
                 'phone' => $request->phone,
                 'device_token' => $request->device_token ?? 'nan',
-                'last_notification'=> $lastNotificationId ,
+                'last_notification' => $lastNotificationId,
                 'otp' => $smsCode,
                 'status' => 0,
             ]);
@@ -322,6 +322,30 @@ class AuthController extends Controller
             "message" => "تم تحديث صورة المستخدم بنجاح",
             "photo" => url(Storage::url($file_path))
         ]);
+    }
+
+
+
+    public function name(Request $request)
+    {
+
+        //  Validation 
+
+        if ($request->first_name || $request->last_name) {
+            $request->user()->Update(
+                request()->only(
+                    "first_name",
+                    "last_name"
+                )
+            );
+            return response()->json([
+                "success"=>true,
+                "message"=>"تم تحديث الإسم بنجاح",
+                "user"=>$request->user(),
+            ],200);
+        } else {
+            return $this->badRequest('يجب عليك إدخال الإسم أو اللقب');
+        }
     }
     // End OF Controller
 }
