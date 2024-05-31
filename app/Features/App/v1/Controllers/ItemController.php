@@ -39,7 +39,6 @@ class ItemController extends Controller
 
     public function show($id)
     {
-
         if (Validator::make(['id' => $id], [
             'id' => 'required|numeric'
         ])->fails()) {
@@ -56,7 +55,7 @@ class ItemController extends Controller
     public function store(Request $request){
 
         if (Validator::make($request->all(), [
-            'naem' => 'required|string|min:2|max:25',
+            'name' => 'required|string|min:2|max:25',
         ])->fails()) {
             return $this->badRequest("يجب عليك إدخال الإسم");
         }

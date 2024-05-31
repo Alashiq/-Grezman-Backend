@@ -46,7 +46,7 @@ class AuthController extends Controller
                 'last_name' => 'اللقب',
                 'phone' => $request->phone,
                 'device_token' => $request->device_token ?? 'nan',
-                'last_notification' => $lastNotificationId,
+                'last_notification' => $lastNotificationId??1,
                 'otp' => $smsCode,
                 'status' => 0,
             ]);
@@ -262,7 +262,6 @@ class AuthController extends Controller
                         ->where('user_id', $user_id);
                 });
         })->where('id', '>', $user->last_notification)->isSent()->notDeleted()->count();
-
 
 
         return response()->json([

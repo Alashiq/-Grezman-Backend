@@ -24,20 +24,24 @@ class UserNotificationController extends Controller
         if ($request->count)
             $count = $request->count;
         else
-            $count = 1;
+            $count = 10;
 
-            $user_id = $request->user()->id;
-            $list = UserNotification::latest()->where(function ($query) use ($user_id) {
-                $query->where('type', 1)
-                    ->orWhere(function ($query) use ($user_id) {
-                        $query->where('type', 2)
-                            ->where('user_id', $user_id);
-                    });
-            })->where('id', '>', $request->user()->last_notification)->isSent()->notDeleted()->paginate($count);
+        $user_id = $request->user()->id;
+        $list = UserNotification::latest()->where(function ($query) use ($user_id) {
+            $query->where('type', 1)
+                ->orWhere(function ($query) use ($user_id) {
+                    $query->where('type', 2)
+                        ->where('user_id', $user_id);
+                });
+        })->where('created_at', '>', $request->user()->created_at)->isSent()->notDeleted()->paginate($count);
 
 
         if ($list->isEmpty())
             return $this->empty();
+
+        $lastNotificationId = $list->first()->id;
+        $request->user()->update(['last_notification' => $lastNotificationId]);
+
         return response()->json(['success' => true, 'message' => 'تم جلب  الإشعارات بنجاح', 'data' => $list], 200);
     }
 
