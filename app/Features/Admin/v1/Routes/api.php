@@ -22,6 +22,7 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
             Route::post('/logout', [AuthController::class, 'logout']);
             Route::post('/password', [AuthController::class, 'password']);
             Route::post('/name', [AuthController::class, 'name']);
+            Route::post('/photo', [AuthController::class, 'photo']);
 
 
         }

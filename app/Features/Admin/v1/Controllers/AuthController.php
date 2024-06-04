@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Features\Admin\v1\Resources\AdminResource;
 use App\Features\Admin\v1\Models\Admin;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -78,9 +80,9 @@ class AuthController extends Controller
     }
 
 
-        // Add Change Name
-        public function name(Request $request)
-        {
+    // Add Change Name
+    public function name(Request $request)
+    {
 
 
         if ($request->first_name || $request->last_name) {
@@ -91,18 +93,44 @@ class AuthController extends Controller
                 )
             );
             return response()->json([
-                "success"=>true,
-                "message"=>"تم تحديث الإسم بنجاح",
-                "user"=>$request->user(),
-            ],200);
+                "success" => true,
+                "message" => "تم تحديث الإسم بنجاح",
+                "user" => $request->user(),
+            ], 200);
         } else {
             return $this->badRequest('يجب عليك إدخال الإسم أو اللقب');
         }
+    }
 
-        
+
+
+    //  Add Change Photo
+    public function photo(Request $request)
+    {
+
+        if (!$request->hasFile('photo')) {
+            return $this->badRequest("يجب عليك إختيار صورة ليتم رفعها");
+        }
+        if (Validator::make($request->all(), [
+            'photo' => 'mimes:jpg,jpeg,png',
+        ])->fails()) {
+            return response()->json(["success" => false, "message" => "الملف الذي اخترته ليس صورة"], 400);
         }
 
-        
+        $file_name = Str::uuid() . '_' . $request->photo->getClientOriginalExtension();
+        $file_path = $request->file('photo')->storeAs('app/admin', $file_name, 'public');
+
+        $request->user()->photo = $file_path;
+        $request->user()->save();
+
+
+
+        return response()->json([
+            "success" => true,
+            "message" => "تم تحديث صورة المستخدم بنجاح",
+            "photo" => url(Storage::url($file_path))
+        ]);
+    }
 
 
     // End of Controller

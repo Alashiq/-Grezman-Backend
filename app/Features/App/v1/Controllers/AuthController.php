@@ -299,7 +299,7 @@ class AuthController extends Controller
     {
 
         if (!$request->hasFile('photo')) {
-            return response()->json(["success" => false, "message" => "يجب عليك إختيار صورة ليتم رفعها"], 400);
+            return $this->badRequest("يجب عليك إختيار صورة ليتم رفعها");
         }
 
         if (Validator::make($request->all(), [
