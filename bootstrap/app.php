@@ -1,5 +1,7 @@
 <?php
 
+use App\Features\Admin\v1\Middleware\AuthAdminMiddleware;
+use App\Features\Admin\v1\Middleware\CheckAdminRoleMiddleware;
 use App\Features\App\v1\Middleware\AuthAppMiddleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
@@ -16,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         then: function () {
             Route::namespace('AppApiV1')->name('app.')->prefix('app/v1/api')->group(base_path('app/Features/App/v1/Routes/api.php'));
+            Route::namespace('AdminApiV1')->name('admin.')->prefix('admin/v1/api')->group(base_path('app/Features/Admin/v1/Routes/api.php'));
 
         },
 
@@ -33,6 +36,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'type.user' => AuthAppMiddleware::class,
+            'type.admin' => AuthAdminMiddleware::class,
+            'check.role' => CheckAdminRoleMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
