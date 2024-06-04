@@ -3,6 +3,7 @@
 // ==========
 
 use App\Features\Admin\v1\Controllers\AuthController;
+use App\Features\Admin\v1\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
@@ -29,5 +30,12 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
     );
     # # # # # # # # # # # # # # # End Admin Auth # # # # # # # # # # # # # # # 
 
+        # # # # # # # # # # # # # # # # #  Home  # # # # # # # # # # # # # # # # #
+        Route::controller(HomeController::class)->prefix('home')->group(
+            function () {
+                Route::get('/', [HomeController::class, 'index'])->middleware('check.role:HomeChart');
+            }
+        );
+        # # # # # # # # # # # # # # # # # End Home  # # # # # # # # # # # # # # # 
 
 });

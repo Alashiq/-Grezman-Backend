@@ -27,7 +27,7 @@ class  AdminResource extends JsonResource
             'phone' => $this->phone,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'photo' => url('/'). $this->photo,
+            'photo' => $this->photo,
             'token' => $this->token,
             'role' => $this->role->name,
            'permissions' =>$permissions ,
