@@ -2,6 +2,7 @@
 
 // ==========
 
+use App\Features\Admin\v1\Controllers\AdminController;
 use App\Features\Admin\v1\Controllers\AuthController;
 use App\Features\Admin\v1\Controllers\HomeController;
 use Illuminate\Http\Request;
@@ -24,18 +25,28 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
             Route::post('/password', [AuthController::class, 'password']);
             Route::post('/name', [AuthController::class, 'name']);
             Route::post('/photo', [AuthController::class, 'photo']);
-
-
         }
     );
     # # # # # # # # # # # # # # # End Admin Auth # # # # # # # # # # # # # # # 
 
-        # # # # # # # # # # # # # # # # #  Home  # # # # # # # # # # # # # # # # #
-        Route::controller(HomeController::class)->prefix('home')->group(
-            function () {
-                Route::get('/', [HomeController::class, 'index'])->middleware('check.role:HomeChart');
-            }
-        );
-        # # # # # # # # # # # # # # # # # End Home  # # # # # # # # # # # # # # # 
+    # # # # # # # # # # # # # # # # #  Home  # # # # # # # # # # # # # # # # #
+    Route::controller(HomeController::class)->prefix('home')->group(
+        function () {
+            Route::get('/', [HomeController::class, 'index'])->middleware('check.role:HomeChart');
+        }
+    );
+    # # # # # # # # # # # # # # # # # End Home  # # # # # # # # # # # # # # # 
+
+
+
+    # # # # # # # # # # # # # # # # #  Admin  # # # # # # # # # # # # # # # # #
+    Route::controller(AdminController::class)->prefix('admin')->group(
+        function () {
+            Route::get('/', [AdminController::class, 'index'])->middleware('check.role:ReadAdmin');
+            Route::get('/{admin}', [AdminController::class, 'show'])->middleware('check.role:ReadAdmin');
+        }
+    );
+    # # # # # # # # # # # # # # # # # End Admin  # # # # # # # # # # # # # # # 
+
 
 });

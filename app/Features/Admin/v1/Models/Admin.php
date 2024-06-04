@@ -45,4 +45,10 @@ class Admin extends Model
 
     }
 
+
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('status', '<>', 9);
+    }
+
 }
