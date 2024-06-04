@@ -43,7 +43,12 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
     Route::controller(AdminController::class)->prefix('admin')->group(
         function () {
             Route::get('/', [AdminController::class, 'index'])->middleware('check.role:ReadAdmin');
+            Route::get('/new', [AdminController::class, 'new'])->middleware('check.role:CreateAdmin'); 
+            Route::post('/', [AdminController::class, 'store'])->middleware('check.role:CreateAdmin');
+
+
             Route::get('/{admin}', [AdminController::class, 'show'])->middleware('check.role:ReadAdmin');
+
         }
     );
     # # # # # # # # # # # # # # # # # End Admin  # # # # # # # # # # # # # # # 
