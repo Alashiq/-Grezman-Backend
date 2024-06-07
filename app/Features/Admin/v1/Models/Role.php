@@ -19,7 +19,7 @@ class Role extends Model
 
     public function admins()
     {
-       return $this->hasMany(Admin::class,'role_id')->where('admins.state', '<>', 9);
+       return $this->hasMany(Admin::class,'role_id')->where('admins.status', '<>', 9);
     }
 
     public function scopeNotDeleted($query)

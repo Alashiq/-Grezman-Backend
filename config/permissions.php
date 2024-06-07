@@ -32,7 +32,18 @@ return [
 
 
 
+        // Role User
+        'ReadUser' => 'مشاهدة المستخدمين',
+        'EditUser' => 'تعديل مستخدم',
+        'DeleteUser' => 'حذف مستخدم',
+        'BannedUser' => 'حظر مستخدم',
 
+
+
+        // Role User Notification
+        'ReadUserNotification' => 'مشاهدة إشعارات المستخدمين',
+        'CreateUserNotification' => 'إضافة اشعار للمستخدم',
+        'DeleteUserNotification' => 'حذف إشعار مستخدم',
 
     ]
 ];

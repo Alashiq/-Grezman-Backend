@@ -21,7 +21,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->boolean('is_sent')->default(0);
-            $table->integer('status')->default(0);
+            $table->dateTime('send_time');
+            $table->integer('status')->default(0);  // 0 Normal - 9 Deleted
             $table->timestamps();
         });
     }
