@@ -24,14 +24,6 @@ return [
 
 
 
-        // Role Currency
-        'ReadCurrency' => 'مشاهدة العملات',
-        'CreateCurrency' => 'إضافة عملة',
-        'EditCurrency' => 'تعديل عملة',
-        'DeleteCurrency' => 'حذف عملة',
-
-
-
         // Role User
         'ReadUser' => 'مشاهدة المستخدمين',
         'EditUser' => 'تعديل مستخدم',
@@ -39,10 +31,9 @@ return [
         'BannedUser' => 'حظر مستخدم',
 
 
-
         // Role User Notification
         'ReadUserNotification' => 'مشاهدة إشعارات المستخدمين',
-        'CreateUserNotification' => 'إضافة اشعار للمستخدم',
+        'CreateUserNotification' => 'إرسال اشعار للمستخدم',
         'DeleteUserNotification' => 'حذف إشعار مستخدم',
 
     ]
