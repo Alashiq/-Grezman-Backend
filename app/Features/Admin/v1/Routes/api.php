@@ -72,7 +72,7 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
     Route::controller(RoleController::class)->prefix('role')->group(
         function () {
             Route::get('/', [RoleController::class, 'index'])->middleware('check.role:ReadRole');
-            Route::get('/new', [RoleController::class, 'new'])->middleware('check.role:ReadAdmin');
+            Route::get('/new', [RoleController::class, 'new'])->middleware('check.role:CreateRole');
             Route::delete('/{role}', [RoleController::class, 'delete'])->middleware('check.role:DeleteRole');
             Route::get('/{role}', [RoleController::class, 'show'])->middleware('check.role:ReadRole');
             Route::put('/{role}', [RoleController::class, 'edit'])->middleware('check.role:EditRole');
@@ -100,8 +100,11 @@ Route::middleware(['auth:sanctum', 'type.admin'])->group(function () {
     Route::controller(UserNotificationController::class)->prefix('usernotification')->group(
         function () {
             Route::get('/', [UserNotificationController::class, 'index'])->middleware('check.role:ReadUserNotification');
+            Route::get('/new', [UserNotificationController::class, 'new'])->middleware('check.role:CreateUserNotification');
             Route::get('/{notification}', [UserNotificationController::class, 'show'])->middleware('check.role:ReadUserNotification');
             Route::delete('/{notification}', [UserNotificationController::class, 'delete'])->middleware('check.role:DeleteUserNotification');
+            Route::post('/', [UserNotificationController::class, 'store'])->middleware('check.role:CreateUserNotification');
+
         }
     );
     # # # # # # # # # # # # # # # # # End Users  # # # # # # # # # # # # # # # 

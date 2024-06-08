@@ -77,6 +77,60 @@ class UserNotificationController extends Controller
 
 
 
+    // Data For New
+    public function new()
+    {
+        return response()->json(['success' => true, 'message' => 'تم جلب البيانات بنجاح'], 200);
+    }
+
+
+    // Add New Notification
+    public function store(Request $request)
+    {
+        if (Validator::make($request->all(), [
+            'title' => 'required|string|min:3|max:30',
+        ])->fails()) {
+            return $this->badRequest("يجب عليك إدخال عنوان بين 3 و 30 حرف");
+        }
+        if (Validator::make($request->all(), [
+            'message' => 'required|string|min:4',
+        ])->fails()) {
+            return $this->badRequest("يجب عليك إدخال محتوى اكثر من 4 أحرف");
+        }
+
+        if (Validator::make($request->all(), [
+            'send_time' => 'required|date|min:3|max:30',
+        ])->fails()) {
+            return $this->badRequest("يجب عليك إدخال وقت وتاريخ الإرسال بشكل صحيح");
+        }
+
+
+        if ($request['type'] != 1 && $request['type'] != 2)
+            return $this->badRequest("يجب عليك تحديد نوع الإشعار بشكل صحيح");
+
+        if ($request['type'] == 2 && $request['user_id'] == null)
+            return $this->badRequest("يجب عليك تحديد مستلم الإشعار");
+
+        $user = User::where('id', $request['user_id']??0)->notDeleted()->first();
+        if (!$user && $request['type'] == 2)
+            return $this->badRequest("لم نتمكن من تحديد المستخدم");
+
+
+        $newItem = UserNotification::create([
+            'title' => $request['title'],
+            'content' => $request['message'],
+            'type' => $request['type'],
+            'user_id' => $request['type'] == 2 ? $request['user_id'] : null,
+            'is_sent' => 0,
+            'send_time' => $request['send_time'],
+
+        ]);
+        if ($newItem)
+            return response()->json(['success' => true, 'message' => 'تم إنشاء هذا الإشعار بنجاح'], 200);
+        else
+            return $this->badRequest('حدث خطأ ما حاول مجددا');
+    }
+
 
 
     // End of Controller
