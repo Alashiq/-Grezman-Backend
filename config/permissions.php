@@ -36,5 +36,82 @@ return [
         'CreateUserNotification' => 'إرسال اشعار للمستخدم',
         'DeleteUserNotification' => 'حذف إشعار مستخدم',
 
+        // Role Company
+        'ReadCompany' => 'مشاهدة الشركات',
+        'CreateCompany' => 'إنشاء شركة جديدة',
+        'EditCompany' => 'تعديل شركة',
+        'DeleteCompany' => 'حذف شركة',
+
+
+
+
+
+        // Role Batch
+        'ReadBatch' => 'مشاهدة الحزم',
+        'CreateBatch' => 'إضافة حزمة',
+        'EditBatch' => 'تعديل حزمة',
+        'DeleteBatch' => 'حذف حزمة',
+
+
+
+        // Role Voucher
+        'ReadVoucher' => 'مشاهدة الكروت',
+        'CreateVoucher' => 'إضافة كرت',
+        'EditVoucher' => 'تعديل كرت',
+        'DeleteVoucher' => 'حذف كرت',
+        'CancelVoucher' => 'ايقاف كرت',
+
+
+
+
+
+        // Role Transaction
+        'ReadTransaction' => 'مشاهدة الحركات',
+        'CreateTransaction' => 'إضافة كرت',
+        'EditTransaction' => 'تعديل كرت',
+        'DeleteTransaction' => 'حذف كرت',
+        'CancelTransaction' => 'ايقاف كرت',
+
+
+
+
+        // Role Sale
+        'ReadSale' => 'مشاهدة المبيعات',
+
+
+
+        // Role Tower
+        'ReadTower' => 'مشاهدة الابراج',
+        'CreateTower' => 'إضافة برج',
+        'EditTower' => 'تعديل برج',
+        'DeleteTower' => 'حذف برج',
+
+
+
+        // Role Profiles
+        'ReadProfile' => 'مشاهدة الباقات',
+        'CreateProfile' => 'إضافة باقة',
+        'EditProfile' => 'تعديل باقة',
+        'DeleteProfile' => 'حذف باقة',
+
+
+
+
+        // Role Joins
+        'ReadJoin' => 'مشاهدة طلبات الإشتراك',
+        'EditJoin' => 'تعديل طلبات الإشتراك',
+        'DeleteJoin' => 'حذف طلبات الإشتراك',
+
+
+
+
+        // Role Banners
+        'ReadBanner' => 'مشاهدة البنرات',
+        'CreateBanner' => 'إضافة بانر',
+        'EditBanner' => 'تعديل بانر',
+        'DeleteBanner' => 'حذف بانر',
+
+
+
     ]
 ];
