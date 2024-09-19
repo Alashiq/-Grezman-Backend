@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('photo')->default('assets/avatar.webp');
+            $table->string('platform')->default('no');
 
             $table->integer('login_attempts')->default(0);
             $table->dateTime('attempts_at')->nullable();

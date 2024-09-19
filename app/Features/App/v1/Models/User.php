@@ -18,6 +18,7 @@ class User extends Model
         'login_attempts',
         'attempts_at',
         'ban_expires_at',
+        'platform',
 
         'otp',
         'otp_attempts',

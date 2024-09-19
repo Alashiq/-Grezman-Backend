@@ -46,7 +46,7 @@ class AuthController extends Controller
                 'last_name' => 'اللقب',
                 'phone' => $request->phone,
                 'device_token' => $request->device_token ?? 'nan',
-                'last_notification' => $lastNotificationId??1,
+                'last_notification' => $lastNotificationId ?? 1,
                 'otp' => $smsCode,
                 'status' => 0,
             ]);
@@ -251,7 +251,14 @@ class AuthController extends Controller
 
         if ($request->device_token != null)
             $user->device_token = $request->device_token;
-        $user->save();
+
+        if ($request->platform != null)
+            $user->platform = $request->platform;
+
+            $user->updated_at = Carbon::now();
+
+        $user->update();
+        $user->touch();
 
 
         $user_id = $request->user()->id;
@@ -338,10 +345,10 @@ class AuthController extends Controller
                 )
             );
             return response()->json([
-                "success"=>true,
-                "message"=>"تم تحديث الإسم بنجاح",
-                "user"=>$request->user(),
-            ],200);
+                "success" => true,
+                "message" => "تم تحديث الإسم بنجاح",
+                "user" => $request->user(),
+            ], 200);
         } else {
             return $this->badRequest('يجب عليك إدخال الإسم أو اللقب');
         }
